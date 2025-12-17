@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import fileInclude from 'gulp-file-include';
 import { deleteAsync } from 'del';
-import  * as dartSass from 'sass';
+import * as dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 import cleanCSS from 'gulp-clean-css';
 import autoprefixer from 'gulp-autoprefixer';
@@ -15,105 +15,101 @@ const sass = gulpSass(dartSass);
 const bs = browserSync.create();
 
 const paths = {
-  html: {
-    src: 'src/pages/**/*.html',
-    dest: 'dist/',
-    watch: ['src/pages/**/*.html', 'src/components/**/*.html'],
-  },
-  styles: {
-    src: 'src/scss/main.scss',
-    dest: 'dist/assets/css/',
-    watch: 'src/scss/**/*.scss',
-  },
-  assets: {
-    src: 'src/assets/**/*',
-    dest: 'dist/assets/',
-  },
-  images: {
-    src: 'src/images/**/*',
-    dest: 'dist/assets/images',
-  },
-  fonts: {
-    src: 'src/fonts/**/*.{woff,woff2,ttf,eot,svg}',
-    dest: 'dist/assets/fonts/',
-     watch: 'src/fonts/**/*.{woff,woff2,ttf,eot,svg}'
-  }
+    html: {
+        src: 'src/pages/**/*.html',
+        dest: 'dist/',
+        watch: ['src/pages/**/*.html', 'src/components/**/*.html'],
+    },
+    styles: {
+        src: 'src/scss/main.scss',
+        dest: 'dist/assets/css/',
+        watch: 'src/scss/**/*.scss',
+    },
+    assets: {
+        src: 'src/assets/**/*',
+        dest: 'dist/assets/',
+    },
+    images: {
+        src: 'src/images/**/*',
+        dest: 'dist/assets/images',
+    }
+    // УБЕРИТЕ fonts отсюда - они уже входят в assets
 };
 
 export const html = () =>
-  gulp
-    .src(paths.html.src)
-    .pipe(
-      fileInclude({
-        prefix: '@@',
-
-        basepath: 'src/components/',
-      })
-    )
-    .pipe(
-      htmlmin({
-        collapseWhitespace: false,
-        removeComments: true,
-      })
-    )
-    .pipe(gulp.dest(paths.html.dest))
-    .pipe(bs.stream());
+    gulp
+        .src(paths.html.src)
+        .pipe(
+            fileInclude({
+                prefix: '@@',
+                basepath: 'src/components/',
+            })
+        )
+        .pipe(
+            htmlmin({
+                collapseWhitespace: false,
+                removeComments: true,
+            })
+        )
+        .pipe(gulp.dest(paths.html.dest))
+        .pipe(bs.stream());
 
 export const styles = () =>
-  gulp
-    .src(paths.styles.src)
-    .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer({ cascade: false }))
-    .pipe(cleanCSS({ level: 2 }))
-    .pipe(gulp.dest(paths.styles.dest))
-    .pipe(bs.stream());
+    gulp
+        .src(paths.styles.src)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer({ cascade: false }))
+        .pipe(cleanCSS({ level: 2 }))
+        .pipe(gulp.dest(paths.styles.dest))
+        .pipe(bs.stream());
 
 const imagesToWebp = () =>
-  gulp.src(paths.images.src, { encoding: false })
-    .pipe(newer(paths.images.dest))
-    .pipe(webp({ quality: 80 }))
-    .pipe(gulp.dest(paths.images.dest))
+    gulp.src(paths.images.src, { encoding: false })
+        .pipe(newer(paths.images.dest))
+        .pipe(webp({ quality: 80 }))
+        .pipe(gulp.dest(paths.images.dest));
 
 const imagesToMobileWebp = () =>
-  gulp.src(paths.images.src, { encoding: false })
-    .pipe(responsive({
-      formats: [
-        { width: 640, rename: { suffix: "-sm" }, format: 'webp' },
-        { width: 1024, rename: { suffix: "-lg" }, format: 'webp' },
-      ]
-    }))
-    .pipe(gulp.dest(paths.images.dest));
+    gulp.src(paths.images.src, { encoding: false })
+        .pipe(responsive({
+            formats: [
+                { width: 640, rename: { suffix: "-sm" }, format: 'webp' },
+                { width: 1024, rename: { suffix: "-lg" }, format: 'webp' },
+            ]
+        }))
+        .pipe(gulp.dest(paths.images.dest));
 
-// Копирование ассетов
+// Копирование всех ассетов (включая шрифты)
 export const assets = () =>
-  gulp.src(paths.assets.src).pipe(gulp.dest(paths.assets.dest));
+    gulp.src(paths.assets.src).pipe(gulp.dest(paths.assets.dest));
 
-export const fonts = () =>
-    gulp.src(paths.fonts.src)
-        .pipe(newer(paths.fonts.dest))
-        .pipe(gulp.dest(paths.fonts.dest));
+// УБЕРИТЕ export const fonts - не нужно отдельной задачи
+
 // Очистка
 export const clean = () => deleteAsync(['dist']);
 
 // Сервер
 export const serve = () => {
-  bs.init({
-    server: {
-      baseDir: './dist',
-    },
-    notify: false,
-    open: true,
-    cors: true,
-  });
+    bs.init({
+        server: {
+            baseDir: './dist',
+        },
+        notify: false,
+        open: true,
+        cors: true,
+    });
 
-  gulp.watch(paths.styles.watch, styles);
-  gulp.watch(paths.html.watch, html);
-  gulp.watch(paths.assets.src, assets);
-  gulp.watch(paths.images.src, imagesToWebp);
-  gulp.watch(paths.images.src, imagesToMobileWebp);
-  gulp.watch(paths.fonts.watch, fonts);
+    gulp.watch(paths.styles.watch, styles);
+    gulp.watch(paths.html.watch, html);
+    gulp.watch(paths.assets.src, assets);
+    gulp.watch(paths.images.src, imagesToWebp);
+    gulp.watch(paths.images.src, imagesToMobileWebp);
 };
 
-// Сборка
-export const build = gulp.series(clean, gulp.parallel(styles, html, assets, imagesToWebp, imagesToMobileWebp, fonts));
+// Сборка - убрали fonts из parallel
+export const build = gulp.series(
+    clean,
+    gulp.parallel(styles, html, assets, imagesToWebp, imagesToMobileWebp)
+);
+
 export default gulp.series(build, serve);

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <title>Тест Unageo2 vs системный Unageo</title>
+    <style>
+        /* Тестовые стили */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .test-block {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+
+        .test-title {
+            color: #2764AE;
+            margin-bottom: 15px;
+        }
+
+        .font-sample {
+            font-size: 20px;
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid;
+        }
+
+        /* Системный Unageo (если установлен) */
+        .system-unageo {
+            font-family: 'montserrat';
+            border-left-color: #ff6b6b;
+        }
+
+        /* Наш Unageo2 из @font-face */
+        .our-unageo2 {
+            font-family: 'montserrat';
+            border-left-color: #2764AE;
+        }
+
+        .weight-300 { font-weight: 300; }
+        .weight-500 { font-weight: 500; }
+
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .loaded { background: #d4edda; color: #155724; }
+        .not-loaded { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Сравнение: системный Unageo vs наш Unageo2</h1>
+
+    <div class="test-block">
+        <h2 class="test-title">1. Системный Unageo (если установлен)</h2>
+        <div class="font-sample system-unageo weight-300">
+            Системный Unageo Light (300)
+            <span id="sys300" class="status">Проверка...</span>
+        </div>
+        <div class="font-sample system-unageo weight-500">
+            Системный Unageo Medium (500)
+            <span id="sys500" class="status">Проверка...</span>
+        </div>
+    </div>
+
+    <div class="test-block">
+        <h2 class="test-title">2. Наш Unageo2 (из @font-face)</h2>
+        <div class="font-sample our-unageo2 weight-300">
+            Наш Unageo2 Light (300)
+            <span id="our300" class="status">Проверка...</span>
+        </div>
+        <div class="font-sample our-unageo2 weight-500">
+            Наш Unageo2 Medium (500)
+            <span id="our500" class="status">Проверка...</span>
+        </div>
+    </div>
+
+    <div class="test-block">
+        <h2 class="test-title">3. Диагностика</h2>
+        <button onclick="checkAllFonts()" style="padding: 12px 24px;
+                background: #2764AE;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-bottom: 20px;">
+            Проверить все шрифты
+        </button>
+
+        <div id="output" style="padding: 15px;
+                background: #1e1e1e;
+                color: #fff;
+                border-radius: 8px;
+                font-family: monospace;
+                font-size: 14px;
+                white-space: pre-wrap;
+                max-height: 400px;
+                overflow-y: auto;"></div>
+    </div>
+</div>
+
+<script>
+    function log(text) {
+        const output = document.getElementById('output');
+        output.textContent += text + '\n';
+    }
+
+    function checkAllFonts() {
+        document.getElementById('output').textContent = '';
+        log('=== ПРОВЕРКА ШРИФТОВ ===\n');
+
+        // Проверяем оба шрифта
+        const fonts = [
+            { name: 'Unageo', display: 'Системный Unageo' },
+            { name: 'Unageo2', display: 'Наш Unageo2' }
+        ];
+
+        const weights = [300, 500];
+
+        fonts.forEach(font => {
+            log(`\n--- ${font.display} ---`);
+            weights.forEach(weight => {
+                const isLoaded = document.fonts.check(`16px "${font.name}" ${weight}`);
+                const status = isLoaded ? '✅ ЗАГРУЖЕН' : '❌ НЕ ЗАГРУЖЕН';
+                log(`${font.name} ${weight}: ${status}`);
+
+                // Обновляем статус на странице
+                const elementId = font.name === 'Unageo' ?
+                    `sys${weight}` : `our${weight}`;
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = isLoaded ? 'Загружен' : 'Не загружен';
+                    element.className = `status ${isLoaded ? 'loaded' : 'not-loaded'}`;
+                }
+            });
+        });
+
+        // Проверяем @font-face правила
+        log('\n--- @font-face правила ---');
+        let foundFontFace = false;
+        Array.from(document.styleSheets).forEach(sheet => {
+            try {
+                Array.from(sheet.cssRules || []).forEach(rule => {
+                    if (rule.type === CSSRule.FONT_FACE_RULE) {
+                        foundFontFace = true;
+                        log(`Найден: ${rule.cssText.substring(0, 100)}...`);
+                    }
+                });
+            } catch(e) {
+                // Игнорируем CORS ошибки
+            }
+        });
+
+        if (!foundFontFace) {
+            log('❌ @font-face правила не найдены!');
+        }
+
+        // Проверяем файлы
+        log('\n--- Проверка файлов ---');
+        ['Unageo-Light.woff2', 'Unageo-Medium.woff2'].forEach(file => {
+            fetch(`assets/fonts/${file}`, { method: 'HEAD' })
+                .then(r => log(`${file}: ${r.ok ? '✅ Доступен' : '❌ Не доступен'}`))
+                .catch(e => log(`${file}: ❌ Ошибка: ${e.message}`));
+        });
+    }
+
+    // Автоматическая проверка при загрузке
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Запуск авто-проверки...');
+        setTimeout(checkAllFonts, 1000);
+    });
+</script>
+</body>
+</html>
