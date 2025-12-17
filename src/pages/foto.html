@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Фотогалерея</title>
+    <title>Наши работы | Бур - 52</title>
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
     <style>
@@ -90,8 +90,32 @@
                           }
                       }
 
+
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Герой-секция контактов */
+
     </style>
-    @@include('../components/_header.html')
+
+
+
+
+<section class="contacts-hero2">
+
+    @@include('../components/_header2.html', {
+        "badgeText": "Наши работы",
+        "title": "Фотогалерея",
+        "titleColor": "white",
+        "subtitle": "Мы всегда на связи и готовы ответить на ваши вопросы о бурении скважин, рассчитать стоимость и организовать выезд специалиста"
+        })
+
+</section>
 <div class="gallery">
     <div class="photo-container">
         <img src="./assets/images/IMG20190801090133.webp" alt="Борский район" class="photo">

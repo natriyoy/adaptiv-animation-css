@@ -3,29 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Контакты - Бур-52</title>
+    <title>Контакты | Бур - 52</title>
     <link rel="stylesheet" href="assets/css/main.css">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-@@include('../components/_header.html')
 
+<section class="contacts-hero2">
+
+    @@include('../components/_header2.html', {
+    "badgeText": "Свяжитесь с нами",
+    "title": "Контакты компании «Бур-52»",
+    "titleColor": "white",
+    "subtitle": "Мы всегда на связи и готовы ответить на ваши вопросы о бурении скважин, рассчитать стоимость и организовать выезд специалиста"
+    })
+
+</section>
 <main class="contacts-page">
-
-    <!-- Герой-секция контактов -->
-    <section class="contacts-hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-text">Свяжитесь с нами</span>
-                </div>
-                <h1 class="hero-title">Контакты компании «Бур-52»</h1>
-                <p class="hero-subtitle">Мы всегда на связи и готовы ответить на ваши вопросы о бурении скважин, рассчитать стоимость и организовать выезд специалиста</p>
-            </div>
-        </div>
-    </section>
 
     <!-- Основная информация о контактах -->
     <section class="contacts-main">
@@ -140,7 +136,7 @@
                                 <i class="fab fa-whatsapp"></i>
                             </div>
                             <div class="btn-content">
-                                <h3>Написать в WhatsApp</h3>
+                                <h3>Написать в Telegram</h3>
                                 <p>Быстрый ответ в мессенджере</p>
                             </div>
                             <div class="btn-arrow">
