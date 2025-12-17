@@ -1,12 +1,12 @@
 <section id="services" class="services-section">
     <div class="container">
         <!-- Chapter Header (вместо @@include) -->
-        <div class="section-header">
-            <div class="section-subtitle">Что мы предлагаем</div>
-            <h2 class="section-title">Наши услуги</h2>
-            <p class="section-description">Комплексные решения для водоснабжения вашего участка или объекта</p>
-        </div>
 
+        @@include('../components/_chapter.html', {
+        "subtitle": "Что мы предлагаем",
+        "title": "Наши услуги",
+        "description": "Комплексные решения для водоснабжения вашего участка или объекта"
+        })
         <div class="services-cards">
             <!-- Карточка 1 -->
             <article class="service-card">

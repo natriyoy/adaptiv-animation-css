@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Фотогалерея</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
     <style>
         * {
             margin: 0;
@@ -15,7 +17,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f5f5f5;
+
             padding: 20px;
         }
 
@@ -122,8 +124,7 @@
             font-size: 0.9rem;
         }
     </style>
-</head>
-<body>
+    @@include('../components/_header.html')
 <div class="gallery">
     <div class="photo-container">
         <img src="./assets/images/IMG20190801090133.webp" alt="Борский район" class="photo">
@@ -240,6 +241,5 @@
                       }
                   }
 </style>
-```
 </body>
 </html>
