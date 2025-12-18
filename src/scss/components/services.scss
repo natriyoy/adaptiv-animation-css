@@ -163,9 +163,12 @@
 }
 
 .service-detail__features {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0, 60, 120, 0.08);
+  border: 1px solid #e2e8f0;
   margin-bottom: 20px;
 }
 

@@ -53,27 +53,21 @@
 
 .photo-container {
   position: relative;
-  border-radius: 12px;
+
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
   transition: all 0.3s ease;
-  background: white;
+
   aspect-ratio: 4/3;
+
 }
 
 .photo-container:hover {
-  transform: translateY(-5px);
+border-color: var(--lazur);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-.photo-container:hover .photo {
-  transform: scale(1.05);
-}
 
-.photo-container:hover .photo-caption {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 .photo {
   width: 100%;
