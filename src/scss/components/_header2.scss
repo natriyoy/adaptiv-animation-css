@@ -161,8 +161,11 @@ color: white;
   text-align: center;
   position: relative;
   overflow: hidden;
-}
+  @media (max-width: 810px) {
+    padding: 0 0 10px;
 
+  }
+}
 .contacts-hero2::before {
   content: '';
   position: absolute;
@@ -174,7 +177,7 @@ color: white;
   background: var(--color-body);
   clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 100%);
   @media (max-width: 810px) {
-
+    width: 0;
     clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0%);
   }
 }
