@@ -18,7 +18,7 @@
         <defs>
           <style>
             .cls-11 {
-              fill: #3c3c3b;
+              fill: var(--tex);
             }
 
             .cls-22 {
@@ -98,40 +98,75 @@
 </header>
 
 <script>
-  // Получаем кнопку
+  // Бургер-меню
+  const burgerToggle = document.getElementById('burgerToggle');
+  const burgerModal = document.getElementById('burgerModal');
+  const burgerClose = document.getElementById('burgerClose');
+  const burgerLinks = document.querySelectorAll('.burger-menu-cl');
+
+  // Функции для бургер-меню
+  function openBurgerMenu() {
+    burgerModal.classList.add('active');
+    burgerToggle.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Блокируем скролл
+  }
+
+  function closeBurgerMenu() {
+    burgerModal.classList.remove('active');
+    burgerToggle.classList.remove('active');
+    document.body.style.overflow = ''; // Восстанавливаем скролл
+  }
+
+  // Открытие бургер-меню
+  burgerToggle.addEventListener('click', openBurgerMenu);
+
+  // Закрытие бургер-меню
+  burgerClose.addEventListener('click', closeBurgerMenu);
+
+  // Закрытие при клике на ссылку
+  burgerLinks.forEach(link => {
+    link.addEventListener('click', closeBurgerMenu);
+  });
+
+  // Закрытие при клике вне меню
+  burgerModal.addEventListener('click', (e) => {
+    if (e.target === burgerModal) {
+      closeBurgerMenu();
+    }
+  });
+
+  // Закрытие при нажатии Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && burgerModal.classList.contains('active')) {
+      closeBurgerMenu();
+    }
+  });
+
+  // Переключение темы (дополнение к предыдущему коду)
   const themeToggle = document.getElementById('themeToggle');
-  const htmlElement = document.documentElement;
 
-  // Проверяем сохраненную тему при загрузке
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  htmlElement.setAttribute('data-theme', savedTheme);
-
-  // Функция переключения темы
   function toggleTheme() {
+    const htmlElement = document.documentElement;
     const currentTheme = htmlElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-    // Применяем новую тему
     htmlElement.setAttribute('data-theme', newTheme);
-
-    // Сохраняем в localStorage
     localStorage.setItem('theme', newTheme);
 
-    // Добавляем анимацию вращения
+    // Анимация для кнопки
     themeToggle.classList.add('rotate');
     setTimeout(() => {
       themeToggle.classList.remove('rotate');
     }, 500);
   }
 
-  // Вешаем обработчик клика
+  // Вешаем обработчик на кнопку темы
   themeToggle.addEventListener('click', toggleTheme);
 
-  // Также можно переключать по клавише (опционально)
-  document.addEventListener('keydown', (e) => {
-    if (e.altKey && e.key === 't') { // Alt + T
-      toggleTheme();
-    }
+  // Инициализация темы при загрузке
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   });
 </script>
 
