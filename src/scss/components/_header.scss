@@ -62,7 +62,7 @@ header {
       span {
         height: 3px;
         width: 100%;
-        background: var(--tex);
+        background: var(--col-te);
         border-radius: 3px;
         transition: all 0.3s ease;
         transform-origin: center;
@@ -129,6 +129,12 @@ header {
           &:hover {
             background: var(--gagat2);
 
+          }
+          @media (max-width: 768px) {
+            &:hover {
+              background: none;
+
+            }
           }
         }
       }

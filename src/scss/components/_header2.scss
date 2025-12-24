@@ -137,6 +137,12 @@ color: white;
             background: var(--gagat2);
 
           }
+          @media (max-width: 768px) {
+            &:hover {
+              background: none;
+
+            }
+          }
         }
       }
     }
