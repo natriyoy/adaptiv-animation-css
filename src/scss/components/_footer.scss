@@ -277,7 +277,11 @@
   width: 24px;
   height: 24px;
 }
-
+.no-link {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none;
+}
 /* Адаптивность */
 @media (max-width: 992px) {
                 .footer-top {

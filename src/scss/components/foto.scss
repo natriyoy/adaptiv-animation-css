@@ -118,10 +118,17 @@ border-color: var(--lazur);
     align-self: flex-start;
   }
 }
+@media (max-width: 768px) {
+  .gallery-container {
+    margin-top: 20px;
+  }
+}
+
 
 @media (max-width: 600px) {
   .gallery-container {
     padding: 0 15px 40px;
+    margin-top: 20px;
   }
 
   .gallery {
