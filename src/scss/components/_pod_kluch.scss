@@ -1,14 +1,19 @@
 .pod-kluh {
+
   margin: 25px auto;
+
 }
 
 .full-service-banner {
   display: flex;
+  overflow: hidden;
+  min-height: 420px;
 }
 
 .full-service-banner__main {
   flex: 1.3;
   padding: 40px;
+
   display: flex;
   flex-direction: column;
 }
@@ -20,8 +25,11 @@
   color: white;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+
 }
 
+/* Заголовок */
 .full-service-banner__header {
   margin-bottom: 30px;
 }
@@ -35,10 +43,36 @@
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.full-service-banner__icon-wrapper {
+  width: 56px;
+  height: 56px;
+  background: #eff6ff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #3b82f6;
+}
+
+.full-service-banner__icon-wrapper svg {
+  width: 30px;
+  height: 30px;
 }
 
 .full-service-banner__title-area {
   margin-top: 10px;
+}
+
+.full-service-banner__sub {
+  display: block;
+  color: #64748b;
+  font-size: 15px;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .full-service-banner__heading {
@@ -48,6 +82,11 @@
   font-family: manr, sans-serif;
   line-height: 1.25;
   font-weight: 700;
+}
+
+/* Описание и преимущества */
+.full-service-banner__description-section {
+  flex-grow: 1;
 }
 
 .full-service-banner__intro {
@@ -232,6 +271,22 @@
   color: #cbd5e1;
 }
 
+/* Адаптивность */
+@media (max-width: 1100px) {
+  .full-service-banner {
+    flex-direction: column;
+  }
+
+  .full-service-banner__main,
+  .full-service-banner__sidebar {
+    padding: 30px;
+  }
+
+  .timing-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .full-service-banner__benefits-grid {
     grid-template-columns: 1fr;
@@ -264,5 +319,24 @@
   .full-service-banner__intro {
     max-width: 100%;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .full-service-banner__main,
+  .full-service-banner__sidebar {
+    padding: 25px 20px;
+  }
+
+  .full-service-banner__heading {
+    font-size: 24px;
+  }
+
+  .price-display__amount {
+    font-size: 32px;
+  }
+
+  .brands-panel__list {
+    justify-content: center;
   }
 }
