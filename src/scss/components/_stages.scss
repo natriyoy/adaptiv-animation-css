@@ -157,6 +157,7 @@
 
       .section-title {
         font-size: 2rem;
+
       }
 
       .section-description {
@@ -186,10 +187,12 @@
 
       &__title {
         font-size: 1.3rem;
+        text-align: center;
       }
 
       &__description {
         font-size: 0.95rem;
+        text-align: center;
       }
 
       &__icon {
@@ -205,10 +208,6 @@
         }
       }
 
-      // Убираем линии на мобильных
-      &::after {
-        display: none;
-      }
     }
 
     .stages-footer {
